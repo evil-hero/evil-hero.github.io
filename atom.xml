@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://evil-hero.github.io</id>
     <title>矩阵空间</title>
-    <updated>2022-05-06T12:06:45.393Z</updated>
+    <updated>2022-05-06T13:05:39.630Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://evil-hero.github.io"/>
     <link rel="self" href="https://evil-hero.github.io/atom.xml"/>
@@ -10,6 +10,56 @@
     <logo>https://evil-hero.github.io/images/avatar.png</logo>
     <icon>https://evil-hero.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, 矩阵空间</rights>
+    <entry>
+        <title type="html"><![CDATA[在新版Gradle中使用classpath引入plugin]]></title>
+        <id>https://evil-hero.github.io/post/zai-xin-ban-gradle-zhong-shi-yong-classpath-yin-ru-plugin/</id>
+        <link href="https://evil-hero.github.io/post/zai-xin-ban-gradle-zhong-shi-yong-classpath-yin-ru-plugin/">
+        </link>
+        <updated>2022-05-06T12:17:38.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-在projectbuildgradle文件中添加插件信息">1. 在<code>Project/build.gradle</code>文件中添加插件信息</h2>
+<pre><code class="language-java">plugins {
+    id 'com.android.application' version '7.1.2' apply false
+    id 'com.android.library' version '7.1.2' apply false
+    
+    // 这个就是要添加的插件id及版本号
+    id 'com.xuexiang.xaop' version '1.1.0' apply false
+}
+</code></pre>
+<br/>
+<h2 id="2-在moudle_namebuildgradle文件中引入插件">2. 在<code>moudle_name/build.gradle</code>文件中引入插件</h2>
+<pre><code class="language-java">plugins {
+    id 'com.android.application'
+
+    // 这个就是要引入的插件
+    id 'com.xuexiang.xaop'
+}
+</code></pre>
+<br>
+<h2 id="3-在projectsettingsgradle文件中添加插件源">3. 在<code>Project/settings.gradle</code>文件中添加插件源</h2>
+<pre><code class="language-java">pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+
+        // 这是添加jitpack源
+        maven { url &quot;https://jitpack.io&quot; }
+    }
+
+    // 下面就是引入插件源的代码
+    resolutionStrategy {
+        eachPlugin {
+            // 源 classpath 'com.github.xuexiangjys.XAOP:xaop-plugin:1.1.0'
+            // requested.id.id 取到的就是Project/build.gradle文件中设置的plugin id
+            if (requested.id.id == 'com.xuexiang.xaop') {
+                useModule('com.github.xuexiangjys.XAOP:xaop-plugin:1.1.0')
+            }
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://evil-hero.github.io/post/hello-gridea/</id>
